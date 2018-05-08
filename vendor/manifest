@@ -1,0 +1,86 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/aws/aws-sdk-go/\\vendor\\github.com\\go-ini\\ini",
+			"repository": "https://github.com/aws/aws-sdk-go",
+			"vcs": "git",
+			"revision": "a73c028a26869fc0caea0615c9b17428a296aac9",
+			"branch": "master",
+			"path": "\\vendor\\github.com\\go-ini\\ini",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/aws/aws-sdk-go/\\vendor\\github.com\\jmespath\\go-jmespath",
+			"repository": "https://github.com/aws/aws-sdk-go",
+			"vcs": "git",
+			"revision": "a73c028a26869fc0caea0615c9b17428a296aac9",
+			"branch": "master",
+			"path": "\\vendor\\github.com\\jmespath\\go-jmespath",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/aws/aws-sdk-go/aws",
+			"repository": "https://github.com/aws/aws-sdk-go",
+			"vcs": "git",
+			"revision": "a73c028a26869fc0caea0615c9b17428a296aac9",
+			"branch": "master",
+			"path": "aws",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/aws/aws-sdk-go/internal/sdkio",
+			"repository": "https://github.com/aws/aws-sdk-go",
+			"vcs": "git",
+			"revision": "a73c028a26869fc0caea0615c9b17428a296aac9",
+			"branch": "master",
+			"path": "internal/sdkio",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/aws/aws-sdk-go/internal/sdkrand",
+			"repository": "https://github.com/aws/aws-sdk-go",
+			"vcs": "git",
+			"revision": "a73c028a26869fc0caea0615c9b17428a296aac9",
+			"branch": "master",
+			"path": "internal/sdkrand",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/aws/aws-sdk-go/internal/shareddefaults",
+			"repository": "https://github.com/aws/aws-sdk-go",
+			"vcs": "git",
+			"revision": "a73c028a26869fc0caea0615c9b17428a296aac9",
+			"branch": "master",
+			"path": "internal/shareddefaults",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/aws/aws-sdk-go/private/protocol",
+			"repository": "https://github.com/aws/aws-sdk-go",
+			"vcs": "git",
+			"revision": "a73c028a26869fc0caea0615c9b17428a296aac9",
+			"branch": "master",
+			"path": "private/protocol",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/aws/aws-sdk-go/service/sqs",
+			"repository": "https://github.com/aws/aws-sdk-go",
+			"vcs": "git",
+			"revision": "a73c028a26869fc0caea0615c9b17428a296aac9",
+			"branch": "master",
+			"path": "/service/sqs",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/aws/aws-sdk-go/service/sts",
+			"repository": "https://github.com/aws/aws-sdk-go",
+			"vcs": "git",
+			"revision": "a73c028a26869fc0caea0615c9b17428a296aac9",
+			"branch": "master",
+			"path": "service/sts",
+			"notests": true
+		}
+	]
+}
