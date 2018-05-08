@@ -6,3 +6,6 @@ to a HTTP endpoint as described in
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html
 
 WIP, no support, no guarantees.
+
+![aeb-messageflow-worker.png](
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/images/aeb-messageflow-worker.png)
