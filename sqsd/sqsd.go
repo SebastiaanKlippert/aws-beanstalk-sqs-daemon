@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"strconv"
 	"strings"
 	"time"
 
@@ -61,10 +62,12 @@ func (c *Client) poller() {
 	c.logf("starting polling queue %s ...\n", c.SQSQueueURL)
 
 	input := &sqs.ReceiveMessageInput{
-		QueueUrl:            aws.String(c.SQSQueueURL),
-		VisibilityTimeout:   aws.Int64(int64(c.VisibilityTimeout)),
-		MaxNumberOfMessages: aws.Int64(1),
-		WaitTimeSeconds:     aws.Int64(20),
+		QueueUrl:              aws.String(c.SQSQueueURL),
+		VisibilityTimeout:     aws.Int64(int64(c.VisibilityTimeout)),
+		MaxNumberOfMessages:   aws.Int64(1),
+		WaitTimeSeconds:       aws.Int64(20),
+		AttributeNames:        aws.StringSlice([]string{"ApproximateFirstReceiveTimestamp", "ApproximateReceiveCount"}),
+		MessageAttributeNames: aws.StringSlice([]string{"All"}),
 	}
 
 	for {
@@ -121,16 +124,21 @@ func (c *Client) sendHTTP(msg *sqs.Message) error {
 		return fmt.Errorf("error creating HTTP request: %s", err)
 	}
 
+	// ignore time errors for now, that will just pass an empty time value
+	firstReceivedTS, _ := strconv.ParseInt(aws.StringValue(msg.Attributes["ApproximateFirstReceiveTimestamp"]), 10, 64)
+
 	req.Header.Set("User-Agent", "aws-sqsd")
 	req.Header.Set("Content-Type", c.ContentType)
 	req.Header.Set("X-Aws-Sqsd-Msgid", aws.StringValue(msg.MessageId))
 	req.Header.Set("X-Aws-Sqsd-Queue", c.queueName)
-	//TODO
-	//req.Header.Set("X-Aws-Sqsd-First-Received-At", aws.StringValue(msg.MessageId))
-	//req.Header.Set("X-Aws-Sqsd-Receive-Count", aws.StringValue(msg.MessageId))
+	req.Header.Set("X-Aws-Sqsd-Receive-Count", aws.StringValue(msg.Attributes["ApproximateReceiveCount"]))
+	req.Header.Set("X-Aws-Sqsd-First-Received-At", time.Unix(0, firstReceivedTS*1000000).Format(time.RFC3339))
 
-	for attrName, attrVal := range aws.StringValueMap(msg.Attributes) {
-		req.Header.Set("X-Aws-Sqsd-Attr-"+attrName, attrVal)
+	for attrName, attrVal := range msg.MessageAttributes {
+		if aws.StringValue(attrVal.DataType) == "Binary" {
+			continue
+		}
+		req.Header.Set("X-Aws-Sqsd-Attr-"+attrName, aws.StringValue(attrVal.StringValue))
 	}
 
 	if c.Verbose {
@@ -155,8 +163,8 @@ func (c *Client) sendHTTP(msg *sqs.Message) error {
 
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("eror reading response body: %s", err)
+		return fmt.Errorf("error reading response body: %s", err)
 	}
 
-	return fmt.Errorf("received non 200 response code %s: %s", resp.Status, string(b))
+	return fmt.Errorf("received non 200 HTTP response code %s: %s", resp.Status, string(b))
 }
