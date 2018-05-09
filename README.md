@@ -16,7 +16,7 @@ Only sqs-url is required.
   -connections uint
         The maximum number of concurrent connections that the daemon can make to the HTTP endpoint. (default 50)
   -http-timeout uint
-        Timeout to wait for HTTP requests. (default 59)
+        Timeout in seconds to wait for HTTP requests. (default 30)
   -http-url string
         The URL to the application that will receive the data from the Amazon SQS queue. The data is inserted into the message body of an HTTP POST message. (default "http://localhost:9900/sqs")
   -mime-type string
@@ -25,7 +25,5 @@ Only sqs-url is required.
         The URL of the Amazon SQS queue from which messages are received.
   -v    Log all the things
   -visibility-timeout  uint
-        Indicate the amount of time, in seconds, an incoming message from the Amazon SQS queue is locked for processing. After the configured amount of time has passed, the message is again made visible in the queue for another
-daemon to read. (default 60)
-
+        Indicate the amount of time, in seconds, an incoming message from the Amazon SQS queue is locked for processing. After the configured amount of time has passed, the message is again made visible in the queue for another daemon to read. (default 60)
 ```
