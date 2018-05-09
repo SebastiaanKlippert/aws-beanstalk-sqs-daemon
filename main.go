@@ -18,7 +18,7 @@ func main() {
 		flagHTTPTimeout       = flag.Uint("http-timeout", 30, "Timeout in seconds to wait for HTTP requests.")
 		flagVisibilityTimeout = flag.Uint("visibility-timeout ", 60, "Indicate the amount of time, in seconds, an incoming message from the Amazon SQS queue is locked for processing. After the configured amount of time has passed, the message is again made visible in the queue for another daemon to read.")
 		flagConnections       = flag.Uint("connections", 50, "The maximum number of concurrent connections that the daemon can make to the HTTP endpoint.")
-		flagVerbose           = flag.Bool("v", false, "Log all the things")
+		flagVerbose           = flag.Bool("v", false, "Log all the things.")
 	)
 
 	flag.Parse()
