@@ -14,16 +14,22 @@ https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/images/aeb-messageflow-wo
 Only sqs-url is required.
 ```
   -connections uint
-        The maximum number of concurrent connections that the daemon can make to the HTTP endpoint. (default 50)
+    	The maximum number of concurrent connections that the daemon can make to the HTTP endpoint. (default 50)
+  -create-queue string
+    	Creates a queue with this name, subscribes it to the SNS topics listed in subscribe-to-sns-arns and then uses this queue to receive messages. Use this or sqs-url.
   -http-timeout uint
-        Timeout in seconds to wait for HTTP requests. (default 30)
+    	Timeout in seconds to wait for HTTP requests. (default 30)
   -http-url string
-        The URL to the application that will receive the data from the Amazon SQS queue. The data is inserted into the message body of an HTTP POST message. (default "http://localhost:9900/sqs")
+    	The URL to the application that will receive the data from the Amazon SQS queue. The data is inserted into the message body of an HTTP POST message. (default "http://localhost:9900/sqs")
   -mime-type string
-         Indicate the MIME type that the HTTP POST message uses. (default "application/json")
+    	 Indicate the MIME type that the HTTP POST message uses. (default "application/json")
+  -sns-regions string
+    	Comma separated list of AWS regions the provided SNS topic ARNs are in (only if different from SQS Queue region).
   -sqs-url string
-        The URL of the Amazon SQS queue from which messages are received.
-  -v    Log all the things
+    	The URL of the Amazon SQS queue from which messages are received. Use this or create-queue.
+  -subscribe-to-sns-arns string
+    	Comma separated list of SNS topic ARNs to subscribe the created queue to (for existing queues no new subscriptions will be added).
+  -v	Log all the things.
   -visibility-timeout  uint
-        Indicate the amount of time, in seconds, an incoming message from the Amazon SQS queue is locked for processing. After the configured amount of time has passed, the message is again made visible in the queue for another daemon to read. (default 60)
+    	Indicate the amount of time, in seconds, an incoming message from the Amazon SQS queue is locked for processing. After the configured amount of time has passed, the message is again made visible in the queue for another daemon to read. (default 60)
 ```

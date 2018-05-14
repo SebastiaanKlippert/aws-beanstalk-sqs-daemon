@@ -65,6 +65,15 @@
 			"notests": true
 		},
 		{
+			"importpath": "github.com/aws/aws-sdk-go/service/sns",
+			"repository": "https://github.com/aws/aws-sdk-go",
+			"vcs": "git",
+			"revision": "59a21fcfacca3b32766b385235797649ec791e48",
+			"branch": "master",
+			"path": "/service/sns",
+			"notests": true
+		},
+		{
 			"importpath": "github.com/aws/aws-sdk-go/service/sqs",
 			"repository": "https://github.com/aws/aws-sdk-go",
 			"vcs": "git",
