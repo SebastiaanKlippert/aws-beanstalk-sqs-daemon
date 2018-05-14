@@ -11,7 +11,7 @@ WIP, no support, no guarantees.
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/images/aeb-messageflow-worker.png)
 
 ## Commandline flags
-Only sqs-url is required.
+Required flags are sqs-url or create-queue
 ```
   -connections uint
     	The maximum number of concurrent connections that the daemon can make to the HTTP endpoint. (default 50)

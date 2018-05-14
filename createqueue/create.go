@@ -62,8 +62,9 @@ func CreateAndSubscribe(opts *CreateOptions) (*CreateOutput, error) {
 
 	// Find the exact queue name
 	for _, q := range listResult.QueueUrls {
-		if aws.StringValue(q) == opts.QueueName {
+		if strings.HasSuffix(aws.StringValue(q), "/"+opts.QueueName) {
 			out.SQSQueueURL = aws.StringValue(q)
+			break
 		}
 	}
 	if len(out.SQSQueueURL) > 0 {
