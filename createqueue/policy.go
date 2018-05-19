@@ -26,6 +26,7 @@ type policyStatement struct {
 	} `json:"Condition"`
 }
 
+// NewSQSSendPolicyForSNSSourceARNs returns the SQS Send Policy
 func NewSQSSendPolicyForSNSSourceARNs(sqsARN string, snsARNs []string) (string, error) {
 
 	stmt := policyStatement{
