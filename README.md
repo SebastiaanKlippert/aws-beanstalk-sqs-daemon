@@ -1,3 +1,5 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/SebastiaanKlippert/aws-beanstalk-sqs-daemon)](https://goreportcard.com/report/github.com/SebastiaanKlippert/aws-beanstalk-sqs-daemon)
+
 # aws-beanstalk-sqs-daemon
 AWS Elastic Beanstalk SQS Daemon simulator.
 
