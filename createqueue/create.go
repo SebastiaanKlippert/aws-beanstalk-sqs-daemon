@@ -3,12 +3,12 @@ package createqueue
 import (
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/arn"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sns"
 	"github.com/aws/aws-sdk-go/service/sqs"
@@ -17,7 +17,6 @@ import (
 type CreateOptions struct {
 	QueueName         string
 	SNSTopicARNs      []string
-	SNSRegions        []string
 	VisibilityTimeout int
 	Verbose           bool
 }
@@ -107,22 +106,15 @@ func CreateAndSubscribe(opts *CreateOptions) (*CreateOutput, error) {
 	}
 	sqsQueueARN := aws.StringValue(queueAttributes.Attributes["QueueArn"])
 
-	// If we passed SNS regions, make sure we have the same amount of regions as we have topics
-	if len(opts.SNSTopicARNs) > 0 && len(opts.SNSTopicARNs) != len(opts.SNSRegions) {
-		// Take the first region provided or the default sessions region
-		snsRegion := os.Getenv("AWS_REGION")
-		if len(opts.SNSRegions) > 0 {
-			snsRegion = opts.SNSRegions[0]
-		}
-		opts.SNSRegions = make([]string, len(opts.SNSTopicARNs))
-		for i := range opts.SNSRegions {
-			opts.SNSRegions[i] = snsRegion
-		}
-	}
-
 	// We now create the SNS service for each topic because the regions can differ and subscribe the new queue to all the SNS topics
-	for i, topicARN := range opts.SNSTopicARNs {
-		snsConfig := aws.NewConfig().WithRegion(opts.SNSRegions[i])
+	for _, topicARN := range opts.SNSTopicARNs {
+
+		ARN, err := arn.Parse(topicARN)
+		if err != nil {
+			return out, fmt.Errorf("error parsing SNS topic ARN %s: %s", topicARN, err)
+		}
+
+		snsConfig := aws.NewConfig().WithRegion(ARN.Region)
 		snsService := sns.New(sess, snsConfig)
 
 		si := &sns.SubscribeInput{

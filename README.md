@@ -1,21 +1,27 @@
 # aws-beanstalk-sqs-daemon
-AWS Elastic Beanstalk SQS Daemon simulator
+AWS Elastic Beanstalk SQS Daemon simulator.
 
-This project will simultate the SQS deamon which sends the queue messages
+This program simulates the SQS deamon which sends the queue messages
 to a HTTP endpoint as described in 
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html
 
-WIP, no support, no guarantees.
 
 ![aeb-messageflow-worker.png](
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/images/aeb-messageflow-worker.png)
 
+## Credentials
+
+Setup your AWS credentials and region using environment variables.
+See https://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html
+
 ## Commandline flags
-Required flags are sqs-url or create-queue
+
+Required flags are sqs-url or sqs-create-queue, but both can also be set using evironment variables `SQS_URL` or `SQS_CREATE_QUEUE`
 ```
+Usage of D:\GoPath\src\github.com\SebastiaanKlippert\aws-beanstalk-sqs-daemon\aws_beanstalk_sqs_daemon.exe:
   -connections uint
     	The maximum number of concurrent connections that the daemon can make to the HTTP endpoint. (default 50)
-  -create-queue string
+  -sqs-create-queue string
     	Creates a queue with this name, subscribes it to the SNS topics listed in subscribe-to-sns-arns and then uses this queue to receive messages. Use this or sqs-url.
   -http-timeout uint
     	Timeout in seconds to wait for HTTP requests. (default 30)
@@ -23,8 +29,6 @@ Required flags are sqs-url or create-queue
     	The URL to the application that will receive the data from the Amazon SQS queue. The data is inserted into the message body of an HTTP POST message. (default "http://localhost:9900/sqs")
   -mime-type string
     	 Indicate the MIME type that the HTTP POST message uses. (default "application/json")
-  -sns-regions string
-    	Comma separated list of AWS regions the provided SNS topic ARNs are in (only if different from SQS Queue region).
   -sqs-url string
     	The URL of the Amazon SQS queue from which messages are received. Use this or create-queue.
   -subscribe-to-sns-arns string
@@ -33,3 +37,4 @@ Required flags are sqs-url or create-queue
   -visibility-timeout  uint
     	Indicate the amount of time, in seconds, an incoming message from the Amazon SQS queue is locked for processing. After the configured amount of time has passed, the message is again made visible in the queue for another daemon to read. (default 60)
 ```
+

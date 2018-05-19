@@ -15,9 +15,8 @@ func main() {
 
 	var (
 		flagSQSQueueURL        = flag.String("sqs-url", "", "The URL of the Amazon SQS queue from which messages are received. Use this or create-queue.")
-		flagCreateQueueName    = flag.String("create-queue", "", "Creates a queue with this name, subscribes it to the SNS topics listed in subscribe-to-sns-arns and then uses this queue to receive messages. Use this or sqs-url.")
+		flagCreateQueueName    = flag.String("sqs-create-queue", "", "Creates a queue with this name, subscribes it to the SNS topics listed in subscribe-to-sns-arns and then uses this queue to receive messages. Use this or sqs-url.")
 		flagSubscribeToSNSARNs = flag.String("subscribe-to-sns-arns", "", "Comma separated list of SNS topic ARNs to subscribe the created queue to (for existing queues no new subscriptions will be added).")
-		flagSNSRegions         = flag.String("sns-regions", "", "Comma separated list of AWS regions the provided SNS topic ARNs are in (only if different from SQS Queue region).")
 		flagHTTPURL            = flag.String("http-url", "http://localhost:9900/sqs", "The URL to the application that will receive the data from the Amazon SQS queue. The data is inserted into the message body of an HTTP POST message.")
 		flagMIMEType           = flag.String("mime-type", "application/json", " Indicate the MIME type that the HTTP POST message uses.")
 		flagHTTPTimeout        = flag.Uint("http-timeout", 30, "Timeout in seconds to wait for HTTP requests.")
@@ -28,6 +27,13 @@ func main() {
 	)
 
 	flag.Parse()
+
+	if *flagSQSQueueURL == "" {
+		*flagSQSQueueURL = os.Getenv("SQS_URL")
+	}
+	if *flagCreateQueueName == "" {
+		*flagCreateQueueName = os.Getenv("SQS_CREATE_QUEUE")
+	}
 
 	if *flagSQSQueueURL == "" && *flagCreateQueueName == "" {
 		flag.PrintDefaults()
@@ -45,7 +51,6 @@ func main() {
 		createOptions := &createqueue.CreateOptions{
 			QueueName:         *flagCreateQueueName,
 			SNSTopicARNs:      queueARNs,
-			SNSRegions:        strings.Split(*flagSNSRegions, ","),
 			VisibilityTimeout: int(*flagVisibilityTimeout),
 			Verbose:           *flagVerbose,
 		}
