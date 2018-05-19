@@ -54,11 +54,11 @@ func main() {
 			VisibilityTimeout: int(*flagVisibilityTimeout),
 			Verbose:           *flagVerbose,
 		}
-		createOutput, err := createqueue.CreateAndSubscribe(createOptions)
+		var err error
+		*flagSQSQueueURL, err = createqueue.CreateAndSubscribe(createOptions)
 		if err != nil {
 			log.Fatal(err)
 		}
-		*flagSQSQueueURL = createOutput.SQSQueueURL
 	}
 
 	// start the SQS daemon client

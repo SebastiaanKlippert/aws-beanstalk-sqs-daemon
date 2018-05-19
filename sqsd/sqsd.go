@@ -15,6 +15,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/sqs"
 )
 
+// Client is the Daemon with all its options
 type Client struct {
 	SQSQueueURL       string
 	HTTPURL           string
@@ -28,10 +29,9 @@ type Client struct {
 	httpClient   *http.Client
 	openRequests *counter
 	queueName    string
-
-	//quit         *signal
 }
 
+// Start runs a new queue receiver from SQS
 func (c *Client) Start() error {
 	sess, err := session.NewSession()
 	if err != nil {
@@ -41,7 +41,6 @@ func (c *Client) Start() error {
 	c.sqsClient = sqs.New(sess)
 	c.httpClient = &http.Client{Timeout: time.Duration(c.HTTPTimeout) * time.Second}
 	c.openRequests = new(counter)
-	//c.quit = new(signal)
 
 	// determine queue name from url, we may need to get this from the SQS API
 	c.queueName = c.SQSQueueURL[strings.LastIndex(c.SQSQueueURL, "/")+1:]
