@@ -15,7 +15,7 @@ func main() {
 
 	var (
 		flagSQSQueueURL        = flag.String("sqs-url", "", "The URL of the Amazon SQS queue from which messages are received. Use this or create-queue.")
-		flagCreateQueueName    = flag.String("sqs-create-queue", "", "Creates a queue with this name, subscribes it to the SNS topics listed in subscribe-to-sns-arns and then uses this queue to receive messages. Use this or sqs-url.")
+		flagCreateQueueName    = flag.String("sqs-create-queue", "", "Creates a queue with this name (use '[hostname]' as replacer for the local host name), subscribes it to the SNS topics listed in subscribe-to-sns-arns and then uses this queue to receive messages. Use this or sqs-url.")
 		flagSubscribeToSNSARNs = flag.String("subscribe-to-sns-arns", "", "Comma separated list of SNS topic ARNs to subscribe the created queue to (for existing queues no new subscriptions will be added).")
 		flagHTTPURL            = flag.String("http-url", "http://localhost:9900/sqs", "The URL to the application that will receive the data from the Amazon SQS queue. The data is inserted into the message body of an HTTP POST message.")
 		flagMIMEType           = flag.String("mime-type", "application/json", " Indicate the MIME type that the HTTP POST message uses.")
@@ -33,6 +33,14 @@ func main() {
 	}
 	if *flagCreateQueueName == "" {
 		*flagCreateQueueName = os.Getenv("SQS_CREATE_QUEUE")
+	}
+
+	if strings.Contains(*flagCreateQueueName, "[hostname]") {
+		hn, err := os.Hostname()
+		if err != nil {
+			log.Fatalf("cannot get local hostname: %s", err)
+		}
+		*flagCreateQueueName = strings.Replace(*flagCreateQueueName, "[hostname]", hn, -1)
 	}
 
 	if *flagSQSQueueURL == "" && *flagCreateQueueName == "" {
