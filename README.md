@@ -20,7 +20,7 @@ See https://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html
 
 Required flags are sqs-url or sqs-create-queue, but both can also be set using evironment variables `SQS_URL` or `SQS_CREATE_QUEUE`
 ```
-Usage of D:\GoPath\src\github.com\SebastiaanKlippert\aws-beanstalk-sqs-daemon\aws_beanstalk_sqs_daemon.exe:
+Usage of aws_beanstalk_sqs_daemon.exe:
   -connections uint
     	The maximum number of concurrent connections that the daemon can make to the HTTP endpoint. (default 50)
   -sqs-create-queue string
