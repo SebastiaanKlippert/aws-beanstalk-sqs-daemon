@@ -24,7 +24,7 @@ Usage of aws_beanstalk_sqs_daemon.exe:
   -connections uint
     	The maximum number of concurrent connections that the daemon can make to the HTTP endpoint. (default 50)
   -sqs-create-queue string
-    	Creates a queue with this nameCreates a queue with this name (use '[hostname]' as replacer for the local host name), subscribes it to the SNS topics listed in subscribe-to-sns-arns and then uses this queue to receive messages. Use this or sqs-url.
+    	Creates a queue with this name (use '[hostname]' as replacer for the local host name), subscribes it to the SNS topics listed in subscribe-to-sns-arns and then uses this queue to receive messages. Use this or sqs-url.
   -http-timeout uint
     	Timeout in seconds to wait for HTTP requests. (default 30)
   -http-url string
